@@ -51,13 +51,13 @@ import 'type_definitions.dart';
 
 class Paginator<T> extends StatefulWidget {
   final PageLoadFuture<T> pageLoadFuture;
-  final PageItemsGetter<T> pageItemsGetter;
+  final PageItemsGetter pageItemsGetter;
   final ListItemBuilder listItemBuilder;
   final LoadingWidgetBuilder loadingWidgetBuilder;
-  final ErrorWidgetBuilder<T> errorWidgetBuilder;
-  final EmptyListWidgetBuilder<T> emptyListWidgetBuilder;
-  final TotalItemsGetter<T> totalItemsGetter;
-  final PageErrorChecker<T> pageErrorChecker;
+  final ErrorWidgetBuilder errorWidgetBuilder;
+  final EmptyListWidgetBuilder emptyListWidgetBuilder;
+  final TotalItemsGetter totalItemsGetter;
+  final PageErrorChecker pageErrorChecker;
 
   /// common properties
   final Key? scrollViewKey;
@@ -302,7 +302,7 @@ class PaginatorState<T> extends State<Paginator> {
 
   void _initialize() {
     _listStatus = _ListStatus.LOADING;
-    _listItems = List();
+    _listItems = [];
     _currentPage = 0;
     _nTotalItems = 0;
   }
@@ -394,7 +394,7 @@ class PaginatorState<T> extends State<Paginator> {
                 return _errorWidgetBuilder(snapshot.data, _onError);
               }
               _listItems.addAll(_pageItemsGetter(snapshot.data));
-              _currentPage++;
+              _currentPage = _currentPage! + 1;
               Future.microtask(() {
                 setState(() {});
               });
@@ -507,7 +507,7 @@ class PaginatorState<T> extends State<Paginator> {
           _listStatus = _ListStatus.EMPTY;
         });
       } else {
-        _currentPage++;
+        _currentPage = _currentPage! + 1;
         _listItems.addAll(_pageItemsGetter(pageData));
         setState(() {
           _listStatus = _ListStatus.SUCCESS;
