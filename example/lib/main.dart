@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_paginator_example/test.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Paginator',
-      home: HomePage(),
+      home: PagintionTest(),
     );
   }
 }
@@ -102,10 +103,11 @@ class HomeState extends State<HomePage> {
   }
 
   List<dynamic> listItemsGetter(CountriesData countriesData) {
-    List<String> list = [];
-    countriesData.countries.forEach((value) {
-      list.add(value['name']);
-    });
+    List<dynamic> list = [];
+
+    for (int i = 0; i < countriesData.countries.length; i++) {
+      list.add(countriesData.countries[i]['name']);
+    }
     return list;
   }
 
@@ -124,7 +126,7 @@ class HomeState extends State<HomePage> {
     );
   }
 
-  Widget errorWidgetMaker(CountriesData countriesData, retryListener) {
+  Widget errorWidgetMaker(countriesData, retryListener) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
